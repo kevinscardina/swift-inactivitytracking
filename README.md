@@ -90,3 +90,31 @@ extension Notification.Name {
     static let applicationInactivityTimeOut = Notification.Name("com.davita.mcoe.dcc.applicationInactivityTimeOut")
 }
 ```
+
+## Using `InactivityTrackingApplication`
+
+To use `InactivityTrackingApplication` have something register for the `applicationInactivityTimeOut` notification:
+
+```swift
+NotificationCenter.default.addObserver(self,
+                                       selector: #selector(applicationDidTimeout(notification:)),
+                                       name: .applicationInactivityTimeOut,
+                                       object: nil)
+//...
+@objc private func applicationDidTimeout(notification: Notification) {
+    // do what you do when the inactivity has reached time out, maybe logout user...
+}
+```
+
+To start tracking user inactivity call the applications `startTracking` function:
+
+```swift
+(UIApplication.shared as? InactivityTrackingApplication)?.startTracking(timeOut: 5)
+```
+
+To stop tracking user inactivity call the applications `stopTracking` function:
+
+```swift
+(UIApplication.shared as? InactivityTrackingApplication)?.stopTracking()
+```
+
